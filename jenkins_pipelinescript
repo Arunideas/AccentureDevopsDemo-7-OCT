@@ -1,0 +1,60 @@
+pipeline { 
+
+
+    agent any 
+
+    stages { 
+
+        stage('Code Download') { 
+
+            steps { 
+
+                git 'https://github.com/Arunideas/test1.git' 
+
+            }
+
+        } 
+        stage('Build Code') { 
+
+            steps { 
+
+                script { 
+
+                    bat 'docker build -t imagename .'
+
+                }
+
+            } 
+        }
+
+        stage('Test Code') { 
+
+            steps { 
+
+                script { 
+
+                  echo "Testing is in progress..."
+                  echo "Testing is Complete!!"
+                    }
+
+                } 
+
+            }
+            
+        stage('Deploy Code') { 
+
+            steps { 
+
+                script { 
+                  bat 'docker container stop test'
+                  bat 'docker container rm test'
+                  bat 'docker run -d -p 80:80 --name test imagename'
+                    }
+
+                } 
+
+            }            
+
+    }
+
+}
